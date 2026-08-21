@@ -168,12 +168,79 @@ async def button(update, context):
                 reply_markup=main_menu()
             )
 
+async def about_command(update, context):
+    await update.message.reply_text(
+        "👑 AYRSHIRE TERP QUEEN 👑\n\n"
+        "Welcome to our community hub.\n\n"
+        "📸 Gallery\n"
+        "📱 Telegram community\n"
+        "🔒 Signal\n"
+        "💌 Contact us\n\n"
+        "Good vibes • Community • Ayrshire 💜"
+    )
 
+
+async def gallery_command(update, context):
+    keyboard = InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton(
+                "📸 OPEN GALLERY",
+                url="https://t.me/+IFm1y-zt9txkZWE0"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "🏠 MAIN MENU",
+                callback_data="menu"
+            )
+        ]
+    ])
+
+    await update.message.reply_text(
+        "📸 GALLERY\n\nTap below to view the gallery:",
+        reply_markup=keyboard
+    )
+
+
+async def contact_command(update, context):
+    keyboard = InlineKeyboardMarkup([
+        [
+            InlineKeyboardButton(
+                "💌 MESSAGE US",
+                url="https://t.me/Terpqueenayrshire"
+            )
+        ],
+        [
+            InlineKeyboardButton(
+                "🏠 MAIN MENU",
+                callback_data="menu"
+            )
+        ]
+    ])
+
+    await update.message.reply_text(
+        "💌 CONTACT US\n\nTap below to get in touch:",
+        reply_markup=keyboard
+    )
+
+
+async def help_command(update, context):
+    await update.message.reply_text(
+        "❓ HELP & INFORMATION\n\n"
+        "/start - Open the main menu\n"
+        "/about - About Ayrshire Terp Queen\n"
+        "/gallery - View the gallery\n"
+        "/contact - Contact us\n"
+        "/help - Show this help menu"
+    )
 app = Application.builder().token(TOKEN).build()
 
 app.add_handler(CommandHandler("start", start))
 app.add_handler(CallbackQueryHandler(button))
-
+app.add_handler(CommandHandler("about", about_command))
+app.add_handler(CommandHandler("gallery", gallery_command))
+app.add_handler(CommandHandler("contact", contact_command))
+app.add_handler(CommandHandler("help", help_command))
 app.add_handler(
     MessageHandler(
         filters.TEXT & ~filters.COMMAND,
