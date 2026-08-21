@@ -64,7 +64,13 @@ def main_menu():
                 "👑 ABOUT US",
                 callback_data="about"
             ),
-        ],
+        [
+            
+    InlineKeyboardButton(
+        "💰 PRICE LIST",
+        url="https://justpaste.it/Ayrshiregenetics"
+    ),
+],
         [
             InlineKeyboardButton(
                 "💌 CONTACT US",
