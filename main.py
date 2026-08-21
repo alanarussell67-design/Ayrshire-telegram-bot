@@ -14,7 +14,6 @@ from telegram.ext import (
 TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 
 
-# Finds the welcome image you uploaded to GitHub automatically
 def get_welcome_image():
     for file in Path(".").iterdir():
         if file.suffix.lower() in [".png", ".jpg", ".jpeg", ".webp"]:
@@ -22,24 +21,17 @@ def get_welcome_image():
     return None
 
 
-# Gives each Telegram user the SAME personal phrase every time they return
 PERSONAL_PHRASES = [
     "Pink Paradise",
-    "Purple Haze",
-    "Terp Queen",
-    "Highland Dream",
+    "Purple Crown",
     "Neon Queen",
+    "Highland Dream",
     "Ayrshire Gold",
     "Cloud Nine",
-    "Royal Terps",
-    "Purple Crown",
-    "Sweet Dreams",
     "Good Vibes",
     "Pink Diamond",
-    "Highland Queen",
-    "Golden Crown",
-    "Neon Dreams",
     "Royal Purple",
+    "Neon Dreams",
 ]
 
 
@@ -48,7 +40,6 @@ def personal_phrase(user_id):
         hashlib.sha256(str(user_id).encode()).hexdigest(),
         16
     )
-
     return PERSONAL_PHRASES[number % len(PERSONAL_PHRASES)]
 
 
@@ -66,34 +57,31 @@ def main_menu():
         ],
         [
             InlineKeyboardButton(
-                "💰 PRICE LIST",
-                url="https://justpaste.it/Ayrshiregenetics"
-            ),
-            InlineKeyboardButton(
                 "📸 GALLERY",
                 url="https://t.me/+IFm1y-zt9txkZWE0"
+            ),
+            InlineKeyboardButton(
+                "👑 ABOUT US",
+                callback_data="about"
             ),
         ],
         [
             InlineKeyboardButton(
-                "📦 ORDER INFO",
-                callback_data="orders"
-            ),
-            InlineKeyboardButton(
                 "💌 CONTACT US",
                 url="https://t.me/Terpqueenayrshire"
+            ),
+            InlineKeyboardButton(
+                "🏠 MAIN MENU",
+                callback_data="menu"
             ),
         ],
     ])
 
 
-async def send_home(update):
-    user = update.effective_user
-
+async def send_home(message, user):
     phrase = personal_phrase(user.id)
 
-    # First message - similar to GTOWN
-    await update.effective_message.reply_text(
+    await message.reply_text(
         "✅ You're in!\n\n"
         f"🔑 Your personal phrase: {phrase}\n\n"
         "Remember it — it will be shown to you when you return."
@@ -101,60 +89,45 @@ async def send_home(update):
 
     image = get_welcome_image()
 
+    caption = (
+        "👑 Welcome to AYRSHIRE TERP QUEEN 👑\n\n"
+        "Choose an option below:"
+    )
+
     if image:
         with open(image, "rb") as photo:
-            await update.effective_message.reply_photo(
+            await message.reply_photo(
                 photo=photo,
-                caption=(
-                    "👑 Welcome to AYRSHIRE TERP QUEEN 👑\n\n"
-                    "Choose an option below:"
-                ),
+                caption=caption,
                 reply_markup=main_menu()
             )
     else:
-        await update.effective_message.reply_text(
-            "👑 Welcome to AYRSHIRE TERP QUEEN 👑\n\n"
-            "Choose an option below:",
+        await message.reply_text(
+            caption,
             reply_markup=main_menu()
         )
 
 
 async def start(update, context):
-    await send_home(update)
+    await send_home(
+        update.message,
+        update.effective_user
+    )
 
 
-async def show_menu(update, context):
-    await send_home(update)
+async def regular_message(update, context):
+    await send_home(
+        update.message,
+        update.effective_user
+    )
 
 
 async def button(update, context):
     query = update.callback_query
     await query.answer()
 
-    if query.data == "orders":
-
-        order_text = (
-            "📦 ORDER INFO\n\n"
-            "⏰ DROP TIMES\n\n"
-            "All orders to be in for:\n\n"
-            "🕛 12AM\n"
-            "🕓 4PM\n"
-            "🕖 7PM\n\n"
-            "📦 BULK ORDERS\n\n"
-            "Any bulk orders need to be pre-ordered. "
-            "Please get them in that morning so they can be "
-            "sorted throughout the day in one big run.\n\n"
-            "📍 COLLECTIONS\n\n"
-            "DM for collection location."
-        )
-
-        buttons = InlineKeyboardMarkup([
-            [
-                InlineKeyboardButton(
-                    "💌 CONTACT US",
-                    url="https://t.me/Terpqueenayrshire"
-                )
-            ],
+    if query.data == "about":
+        keyboard = InlineKeyboardMarkup([
             [
                 InlineKeyboardButton(
                     "⬅️ BACK TO MAIN MENU",
@@ -164,35 +137,34 @@ async def button(update, context):
         ])
 
         await query.message.reply_text(
-            order_text,
-            reply_markup=buttons
+            "👑 AYRSHIRE TERP QUEEN 👑\n\n"
+            "Welcome to our community hub.\n\n"
+            "📸 Browse the gallery\n"
+            "📱 Join our Telegram community\n"
+            "🔒 Connect through Signal\n"
+            "💌 Contact us directly\n\n"
+            "Good vibes • Community • Ayrshire 💜",
+            reply_markup=keyboard
         )
 
     elif query.data == "menu":
-
-        user = query.from_user
-        phrase = personal_phrase(user.id)
-
         image = get_welcome_image()
 
-        await query.message.reply_text(
-            f"🔑 Your personal phrase: {phrase}"
+        caption = (
+            "👑 Welcome back to AYRSHIRE TERP QUEEN 👑\n\n"
+            "Choose an option below:"
         )
 
         if image:
             with open(image, "rb") as photo:
                 await query.message.reply_photo(
                     photo=photo,
-                    caption=(
-                        "👑 Welcome to AYRSHIRE TERP QUEEN 👑\n\n"
-                        "Choose an option below:"
-                    ),
+                    caption=caption,
                     reply_markup=main_menu()
                 )
         else:
             await query.message.reply_text(
-                "👑 Welcome to AYRSHIRE TERP QUEEN 👑\n\n"
-                "Choose an option below:",
+                caption,
                 reply_markup=main_menu()
             )
 
@@ -203,7 +175,10 @@ app.add_handler(CommandHandler("start", start))
 app.add_handler(CallbackQueryHandler(button))
 
 app.add_handler(
-    MessageHandler(filters.TEXT & ~filters.COMMAND, show_menu)
+    MessageHandler(
+        filters.TEXT & ~filters.COMMAND,
+        regular_message
+    )
 )
 
 print("AYRSHIRE TERP QUEEN BOT IS RUNNING 👑")
