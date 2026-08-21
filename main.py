@@ -79,6 +79,12 @@ def main_menu():
         ],
         [
             InlineKeyboardButton(
+                "💰 PRICE LIST",
+                url="https://justpaste.it/Ayrshiregenetics"
+            ),
+        ],
+        [
+            InlineKeyboardButton(
                 "💌 CONTACT US",
                 url="https://t.me/Terpqueenayrshire"
             ),
@@ -88,7 +94,6 @@ def main_menu():
             ),
         ],
     ])
-
 
 # -------------------------
 # HOME SCREEN
