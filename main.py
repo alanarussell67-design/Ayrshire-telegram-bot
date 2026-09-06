@@ -77,7 +77,7 @@ def main_menu():
             ),
         ],
 
-        # NEW TELEGRAM CHAT LINK
+        # TELEGRAM CHAT
         [
             InlineKeyboardButton(
                 "💬 CHAT WITH US",
@@ -98,7 +98,7 @@ def main_menu():
             ),
         ],
 
-        # LUXE RESIN STUDIO PRICE LIST
+        # PRICE LIST
         [
             InlineKeyboardButton(
                 "💰 PRICE LIST",
@@ -180,9 +180,32 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def about(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await update.message.reply_text(
-        "👑 AYRSHIRE TERP QUEEN 👑\n\n"
-        "Welcome to our community.\n\n"
-        "Use the buttons below to navigate.",
+        """💗 👑 ABOUT US 👑 💗
+
+🚗 DELIVERY TIME SLOTS
+
+🕑 2PM DELIVERY RUN
+🕔 5PM DELIVERY RUN
+
+Please have your order in before the run time.
+
+⚠️ If you order after the 2PM run has left, your order will go onto the 5PM run.
+
+📍 COLLECTIONS
+
+Collections are available throughout the day 🤙
+
+Message us when you're ready to collect and we'll arrange everything with you.
+
+💷 PLEASE NOTE
+
+💵 CASH ONLY
+
+❌ NO TICK
+❌ NO TRANSFERS
+❌ NO DAFTYS 👀😂
+
+Keep it simple, keep it sweet 💚🤙""",
         reply_markup=main_menu(),
     )
 
@@ -253,31 +276,63 @@ async def button_handler(
 
     await query.answer()
 
-    # ABOUT US
+
+    # ==================================================
+    # ABOUT US BUTTON
+    # ==================================================
+
     if query.data == "about":
 
         await query.message.reply_text(
-            "👑 ABOUT US 👑\n\n"
-            "Welcome to AYRSHIRE TERP QUEEN.\n\n"
-            "Use the menu below to navigate.",
+            """💗 👑 ABOUT US 👑 💗
+
+🚗 DELIVERY TIME SLOTS
+
+🕑 2PM DELIVERY RUN
+🕔 5PM DELIVERY RUN
+
+Please have your order in before the run time.
+
+⚠️ If you order after the 2PM run has left, your order will go onto the 5PM run.
+
+📍 COLLECTIONS
+
+Collections are available throughout the day 🤙
+
+Message us when you're ready to collect and we'll arrange everything with you.
+
+💷 PLEASE NOTE
+
+💵 CASH ONLY
+
+❌ NO TICK
+❌ NO TRANSFERS
+❌ NO DAFTYS 👀😂
+
+Keep it simple, keep it sweet 💚🤙""",
+
             reply_markup=main_menu(),
         )
 
-    # HELP
+
+    # ==================================================
+    # HELP BUTTON
+    # ==================================================
+
     elif query.data == "help":
 
         await query.message.reply_text(
             "❓ HELP & INFORMATION\n\n"
 
-            "🔒 SIGNAL — Open our Signal community\n"
+            "🔒 SIGNAL — Open our Signal community\n\n"
 
-            "💬 CHAT WITH US — Open our Telegram chat\n"
+            "💬 CHAT WITH US — Open our Telegram chat\n\n"
 
-            "📸 GALLERY — View our gallery\n"
+            "📸 GALLERY — View our gallery\n\n"
 
-            "👑 ABOUT US — Find out more about us\n"
+            "👑 ABOUT US — Find out more about us\n\n"
 
-            "💰 PRICE LIST — View the Luxe Resin Studio price list\n"
+            "💰 PRICE LIST — View the Luxe Resin Studio price list\n\n"
 
             "💌 CONTACT US — Contact us directly\n\n"
 
@@ -310,7 +365,11 @@ def main():
 
     app = Application.builder().token(TOKEN).build()
 
-    # Commands
+
+    # ==================================================
+    # COMMANDS
+    # ==================================================
+
     app.add_handler(
         CommandHandler("start", start)
     )
@@ -331,12 +390,20 @@ def main():
         CommandHandler("help", help_command)
     )
 
-    # About/Help buttons
+
+    # ==================================================
+    # ABOUT / HELP BUTTONS
+    # ==================================================
+
     app.add_handler(
         CallbackQueryHandler(button_handler)
     )
 
-    # Other text messages
+
+    # ==================================================
+    # OTHER TEXT MESSAGES
+    # ==================================================
+
     app.add_handler(
         MessageHandler(
             filters.TEXT & ~filters.COMMAND,
@@ -344,14 +411,24 @@ def main():
         )
     )
 
+
+    # ==================================================
+    # START BOT
+    # ==================================================
+
     print(
         "Ayrshire Telegram Bot is running...",
         flush=True
     )
 
-    # Keep bot running continuously
     app.run_polling()
 
 
+# ==================================================
+# START
+# ==================================================
+
 if __name__ == "__main__":
     main()
+
+This version has the same bot structure you supplied, with the new delivery/collection wording added to both "/about" and the 👑 ABOUT US button.
