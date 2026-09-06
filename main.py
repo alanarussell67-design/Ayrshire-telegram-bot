@@ -276,9 +276,8 @@ async def button_handler(
 
     await query.answer()
 
-
     # ==================================================
-    # ABOUT US BUTTON
+    # ABOUT US
     # ==================================================
 
     if query.data == "about":
@@ -310,13 +309,11 @@ Message us when you're ready to collect and we'll arrange everything with you.
 ❌ NO DAFTYS 👀😂
 
 Keep it simple, keep it sweet 💚🤙""",
-
             reply_markup=main_menu(),
         )
 
-
     # ==================================================
-    # HELP BUTTON
+    # HELP
     # ==================================================
 
     elif query.data == "help":
@@ -365,11 +362,7 @@ def main():
 
     app = Application.builder().token(TOKEN).build()
 
-
-    # ==================================================
-    # COMMANDS
-    # ==================================================
-
+    # Commands
     app.add_handler(
         CommandHandler("start", start)
     )
@@ -390,20 +383,12 @@ def main():
         CommandHandler("help", help_command)
     )
 
-
-    # ==================================================
-    # ABOUT / HELP BUTTONS
-    # ==================================================
-
+    # About/Help buttons
     app.add_handler(
         CallbackQueryHandler(button_handler)
     )
 
-
-    # ==================================================
-    # OTHER TEXT MESSAGES
-    # ==================================================
-
+    # Other text messages
     app.add_handler(
         MessageHandler(
             filters.TEXT & ~filters.COMMAND,
@@ -411,24 +396,14 @@ def main():
         )
     )
 
-
-    # ==================================================
-    # START BOT
-    # ==================================================
-
     print(
         "Ayrshire Telegram Bot is running...",
         flush=True
     )
 
+    # Keep bot running continuously
     app.run_polling()
 
 
-# ==================================================
-# START
-# ==================================================
-
 if __name__ == "__main__":
     main()
-
-This version has the same bot structure you supplied, with the new delivery/collection wording added to both "/about" and the 👑 ABOUT US button.
