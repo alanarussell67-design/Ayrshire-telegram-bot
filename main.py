@@ -12,6 +12,11 @@ from telegram.ext import (
     filters,
 )
 
+
+# ==================================================
+# TELEGRAM TOKEN
+# ==================================================
+
 # Telegram token stored safely in Railway
 TOKEN = os.environ["TELEGRAM_BOT_TOKEN"]
 
@@ -80,8 +85,16 @@ def main_menu():
         # TELEGRAM CHAT
         [
             InlineKeyboardButton(
-                "💬 CHAT WITH US",
+                "💬 TELEGRAM CHAT",
                 url="https://t.me/+88mdil14i9gzYjU0"
+            ),
+        ],
+
+        # WHATSAPP GROUP
+        [
+            InlineKeyboardButton(
+                "💚 WHATSAPP GROUP",
+                url="https://chat.whatsapp.com/CYX2rinp56LDiZiqVriVLS"
             ),
         ],
 
@@ -110,7 +123,7 @@ def main_menu():
         [
             InlineKeyboardButton(
                 "💌 CONTACT US",
-                url="https://t.me/Terpqueenayrshire"
+                url="https://wa.me/447546338571"
             ),
 
             InlineKeyboardButton(
@@ -231,7 +244,7 @@ async def contact(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     await update.message.reply_text(
         "💌 CONTACT US\n\n"
-        "Use the Contact Us or Chat With Us button below.",
+        "Press the Contact Us button below to message us directly on WhatsApp.",
         reply_markup=main_menu(),
     )
 
@@ -245,17 +258,19 @@ async def help_command(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text(
         "❓ HELP & INFORMATION\n\n"
 
-        "🔒 SIGNAL — Open our Signal community\n"
+        "🔒 SIGNAL — Open our Signal community\n\n"
 
-        "💬 CHAT WITH US — Open our Telegram chat\n"
+        "💬 TELEGRAM CHAT — Open our Telegram chat\n\n"
 
-        "📸 GALLERY — View our gallery\n"
+        "💚 WHATSAPP GROUP — Join our WhatsApp group\n\n"
 
-        "👑 ABOUT US — Find out more about us\n"
+        "📸 GALLERY — View our gallery\n\n"
 
-        "💰 PRICE LIST — View the Luxe Resin Studio price list\n"
+        "👑 ABOUT US — Find out more about us\n\n"
 
-        "💌 CONTACT US — Contact us directly\n\n"
+        "💰 PRICE LIST — View our price list\n\n"
+
+        "💌 CONTACT US — Message us directly on WhatsApp\n\n"
 
         "Type /start at any time to return to the main menu.",
 
@@ -275,6 +290,7 @@ async def button_handler(
     query = update.callback_query
 
     await query.answer()
+
 
     # ==================================================
     # ABOUT US
@@ -312,6 +328,7 @@ Keep it simple, keep it sweet 💚🤙""",
             reply_markup=main_menu(),
         )
 
+
     # ==================================================
     # HELP
     # ==================================================
@@ -323,15 +340,17 @@ Keep it simple, keep it sweet 💚🤙""",
 
             "🔒 SIGNAL — Open our Signal community\n\n"
 
-            "💬 CHAT WITH US — Open our Telegram chat\n\n"
+            "💬 TELEGRAM CHAT — Open our Telegram chat\n\n"
+
+            "💚 WHATSAPP GROUP — Join our WhatsApp group\n\n"
 
             "📸 GALLERY — View our gallery\n\n"
 
             "👑 ABOUT US — Find out more about us\n\n"
 
-            "💰 PRICE LIST — View the Luxe Resin Studio price list\n\n"
+            "💰 PRICE LIST — View our price list\n\n"
 
-            "💌 CONTACT US — Contact us directly\n\n"
+            "💌 CONTACT US — Message us directly on WhatsApp\n\n"
 
             "Type /start at any time to reopen the main menu.",
 
@@ -383,7 +402,7 @@ def main():
         CommandHandler("help", help_command)
     )
 
-    # About/Help buttons
+    # About / Help buttons
     app.add_handler(
         CallbackQueryHandler(button_handler)
     )
@@ -404,6 +423,10 @@ def main():
     # Keep bot running continuously
     app.run_polling()
 
+
+# ==================================================
+# START
+# ==================================================
 
 if __name__ == "__main__":
     main()
